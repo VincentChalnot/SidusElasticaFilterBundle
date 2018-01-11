@@ -1,0 +1,3 @@
+services:
+    sidus.elastica.registry.finder:
+        class: Sidus\ElasticaFilterBundle\Registry\ElasticaFinderRegistry

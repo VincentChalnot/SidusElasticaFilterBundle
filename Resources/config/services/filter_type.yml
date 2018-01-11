@@ -1,0 +1,32 @@
+services:
+    sidus.elastica.filter.type.autocomplete_data:
+        class: Sidus\ElasticaFilterBundle\Filter\Type\AutocompleteDataFilterType
+        arguments:
+            - autocomplete_data
+            - Sidus\EAVBootstrapBundle\Form\Type\AutocompleteDataSelectorType
+        tags:
+            - { name: sidus.filter_type }
+
+    sidus.elastica.filter.type.date_range:
+        class: Sidus\ElasticaFilterBundle\Filter\Type\DateRangeFilterType
+        arguments:
+            - date_range
+            - Sidus\FilterBundle\Form\Type\DateRangeType
+        tags:
+            - { name: sidus.filter_type }
+
+    sidus.elastica.filter.type.text:
+        class: Sidus\ElasticaFilterBundle\Filter\Type\TextFilterType
+        arguments:
+            - text
+            - Symfony\Component\Form\Extension\Core\Type\TextType
+        tags:
+            - { name: sidus.filter_type }
+
+    sidus.elastica.filter.type.choice:
+        class: Sidus\ElasticaFilterBundle\Filter\Type\ChoiceFilterType
+        arguments:
+            - choice
+            - Symfony\Component\Form\Extension\Core\Type\ChoiceType
+        tags:
+            - { name: sidus.filter_type }

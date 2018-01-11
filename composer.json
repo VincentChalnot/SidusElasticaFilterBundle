@@ -1,0 +1,32 @@
+{
+    "name": "sidus/elastica-filter-bundle",
+    "description": "Extension for sidus/filter-bundle to handle Elastic Search index search",
+    "keywords": [
+        "elastic",
+        "search",
+        "elastica",
+        "filter",
+        "sort",
+        "datagrid"
+    ],
+    "homepage": "https://github.com/VincentChalnot/SidusElasticaFilterBundle",
+    "type": "library",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Vincent Chalnot",
+            "email": "vincent@sidus.fr",
+            "homepage": "http://chalnot.fr",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Sidus\\ElasticaFilterBundle\\": ""
+        }
+    },
+    "require": {
+        "sidus/filter-bundle": "dev-v1.3-dev",
+        "friendsofsymfony/elastica-bundle": "^5.0"
+    }
+}
