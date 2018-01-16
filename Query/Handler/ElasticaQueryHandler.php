@@ -117,7 +117,7 @@ class ElasticaQueryHandler extends AbstractQueryHandler implements ElasticaQuery
     protected function applySort(SortConfig $sortConfig)
     {
         if ($sortConfig->getColumn()) {
-            $this->getQuery()->addSort([$sortConfig->getColumn() => $sortConfig->getDirection() ? 'asc' : 'desc']);
+            $this->getQuery()->addSort([$sortConfig->getColumn() => $sortConfig->getDirection() ? 'desc' : 'asc']);
         }
     }
 
