@@ -23,6 +23,14 @@ services:
         tags:
             - { name: sidus.filter_type }
 
+    sidus.elastica.filter.type.exact:
+        class: Sidus\ElasticaFilterBundle\Filter\Type\ExactFilterType
+        arguments:
+            - exact
+            - Symfony\Component\Form\Extension\Core\Type\TextType
+        tags:
+            - { name: sidus.filter_type }
+
     sidus.elastica.filter.type.choice:
         class: Sidus\ElasticaFilterBundle\Filter\Type\ChoiceFilterType
         arguments:

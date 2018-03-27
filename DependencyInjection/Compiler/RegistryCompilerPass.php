@@ -10,15 +10,35 @@
  
 namespace Sidus\ElasticaFilterBundle\DependencyInjection\Compiler;
 
-use FOS\ElasticaBundle\Finder\PaginatedFinderInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * Inject FOSElastica registries in a dedicated registry
+ * Generic compiler pass to inject services matching a class in a dedicated registry
  */
-class ElasticaFinderRegistryCompilerPass implements CompilerPassInterface
+class RegistryCompilerPass implements CompilerPassInterface
 {
+    /** @var string */
+    protected $registry;
+
+    /** @var string */
+    protected $interface;
+
+    /** @var string */
+    protected $method;
+
+    /**
+     * @param string $registry
+     * @param string $interface
+     * @param string $method
+     */
+    public function __construct(string $registry, string $interface, string $method)
+    {
+        $this->registry = $registry;
+        $this->interface = $interface;
+        $this->method = $method;
+    }
+
     /**
      * You can modify the container here before it is dumped to PHP code.
      *
@@ -29,13 +49,13 @@ class ElasticaFinderRegistryCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $registryDefinition = $container->getDefinition('sidus.elastica.registry.finder');
+        $registryDefinition = $container->getDefinition($this->registry);
         foreach ($container->getDefinitions() as $id => $definition) {
             if ($definition->isAbstract()) {
                 continue;
             }
-            if (is_a($definition->getClass(), PaginatedFinderInterface::class, true)) {
-                $registryDefinition->addMethodCall('addFinder', [$id, $definition]);
+            if (is_a($definition->getClass(), $this->interface, true)) {
+                $registryDefinition->addMethodCall($this->method, [$id, $definition]);
             }
         }
     }
