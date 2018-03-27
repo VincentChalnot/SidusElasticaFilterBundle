@@ -43,9 +43,20 @@ class TextFilterType extends AbstractElasticaFilterType
         /** @var AbstractQuery[] $terms */
         $terms = [];
         foreach ($filter->getAttributes() as $attributePath) {
-            $terms[] = new Wildcard($attributePath, '*'.$data.'*');
+            $terms[] = $this->createQuery($attributePath, $data);
         }
 
         $this->handleTerms($queryHandler, $terms);
+    }
+
+    /**
+     * @param string $attributePath
+     * @param mixed  $data
+     *
+     * @return \Elastica\Param
+     */
+    protected function createQuery($attributePath, $data)
+    {
+        return new Wildcard($attributePath, '*'.$data.'*');
     }
 }
