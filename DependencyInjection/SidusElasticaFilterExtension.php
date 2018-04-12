@@ -10,24 +10,13 @@
 
 namespace Sidus\ElasticaFilterBundle\DependencyInjection;
 
-use Sidus\FilterBundle\DependencyInjection\Loader\ServiceLoader;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Sidus\BaseBundle\DependencyInjection\SidusBaseExtension;
 
 /**
  * This is the class that loads and manages your bundle configuration.
  *
  * @link http://symfony.com/doc/current/cookbook/bundles/extension.html
  */
-class SidusElasticaFilterExtension extends Extension
+class SidusElasticaFilterExtension extends SidusBaseExtension
 {
-    /**
-     * {@inheritdoc}
-     * @throws \Exception
-     */
-    public function load(array $configs, ContainerBuilder $container)
-    {
-        $loader = new ServiceLoader(__DIR__.'/../Resources/config/services');
-        $loader->loadFiles($container);
-    }
 }
