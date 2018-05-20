@@ -13,9 +13,11 @@ namespace Sidus\ElasticaFilterBundle;
 use Elastica\SearchableInterface;
 use FOS\ElasticaBundle\Finder\PaginatedFinderInterface;
 use Sidus\ElasticaFilterBundle\DependencyInjection\Compiler\RegistryCompilerPass;
+use Sidus\ElasticaFilterBundle\Registry\ElasticaFinderRegistry;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Sidus\ElasticaFilterBundle\Registry\ElasticaSearchableRegistry;
 
 /**
  * Class SidusElasticaFilterBundle
@@ -31,15 +33,17 @@ class SidusElasticaFilterBundle extends Bundle
     {
         $container->addCompilerPass(
             new RegistryCompilerPass(
-                'sidus.elastica.registry.finder',
-                PaginatedFinderInterface::class, 'addFinder'
+                ElasticaFinderRegistry::class,
+                PaginatedFinderInterface::class,
+                'addFinder'
             ),
             PassConfig::TYPE_OPTIMIZE
         );
         $container->addCompilerPass(
             new RegistryCompilerPass(
-                'sidus.elastica.registry.searchable',
-                SearchableInterface::class, 'addSearchable'
+                ElasticaSearchableRegistry::class,
+                SearchableInterface::class,
+                'addSearchable'
             ),
             PassConfig::TYPE_OPTIMIZE
         );

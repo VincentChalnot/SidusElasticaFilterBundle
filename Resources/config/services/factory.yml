@@ -1,8 +1,6 @@
 services:
-    sidus.elastica.factory.query_handler:
-        class: Sidus\ElasticaFilterBundle\Factory\ElasticaQueryHandlerFactory
-        arguments:
-            - '@sidus_filter.registry.filter_type'
-            - '@sidus.elastica.registry.finder'
+    Sidus\ElasticaFilterBundle\Factory\ElasticaQueryHandlerFactory:
+        public: false
+        autowire: true
         tags:
             - { name: sidus.query_handler_factory }

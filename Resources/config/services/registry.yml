@@ -1,6 +1,6 @@
 services:
-    sidus.elastica.registry.finder:
-        class: Sidus\ElasticaFilterBundle\Registry\ElasticaFinderRegistry
+    Sidus\ElasticaFilterBundle\Registry\ElasticaFinderRegistry:
+        public: false
 
-    sidus.elastica.registry.searchable:
-        class: Sidus\ElasticaFilterBundle\Registry\ElasticaSearchableRegistry
+    Sidus\ElasticaFilterBundle\Registry\ElasticaSearchableRegistry:
+        public: false
