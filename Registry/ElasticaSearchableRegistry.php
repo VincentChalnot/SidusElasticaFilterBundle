@@ -47,7 +47,6 @@ class ElasticaSearchableRegistry
     public function getSearchable(string $name)
     {
         if (!$this->hasSearchable($name)) {
-            dump($this->searchables);
             throw new \UnexpectedValueException("Missing Searchable {$name}");
         }
 
