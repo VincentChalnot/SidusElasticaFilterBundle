@@ -17,7 +17,6 @@ use Sidus\FilterBundle\Exception\BadQueryHandlerException;
 use Sidus\FilterBundle\Filter\FilterInterface;
 use Sidus\FilterBundle\Form\Type\DateRangeType;
 use Sidus\FilterBundle\Query\Handler\QueryHandlerInterface;
-use Symfony\Component\Form\FormInterface;
 
 /**
  * Replaces the standard DateRangeFilterType
@@ -30,12 +29,11 @@ class DateRangeFilterType extends AbstractElasticaFilterType
      * @throws \LogicException
      * @throws \UnexpectedValueException
      */
-    public function handleForm(QueryHandlerInterface $queryHandler, FilterInterface $filter, FormInterface $form)
+    public function handleData(QueryHandlerInterface $queryHandler, FilterInterface $filter, $data)
     {
         if (!$queryHandler instanceof ElasticaQueryHandlerInterface) {
             throw new BadQueryHandlerException($queryHandler, ElasticaQueryHandlerInterface::class);
         }
-        $data = $form->getData();
         if (null === $data || !\is_array($data)) {
             return;
         }
