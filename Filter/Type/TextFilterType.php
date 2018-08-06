@@ -29,13 +29,10 @@ class TextFilterType extends AbstractElasticaFilterType
      * @throws \LogicException
      * @throws \UnexpectedValueException
      */
-    public function handleData(QueryHandlerInterface $queryHandler, FilterInterface $filter, $data)
+    public function handleData(QueryHandlerInterface $queryHandler, FilterInterface $filter, $data): void
     {
         if (!$queryHandler instanceof ElasticaQueryHandlerInterface) {
             throw new BadQueryHandlerException($queryHandler, ElasticaQueryHandlerInterface::class);
-        }
-        if (null === $data) {
-            return;
         }
 
         /** @var AbstractQuery[] $terms */

@@ -10,10 +10,10 @@
 
 namespace Sidus\ElasticaFilterBundle\Query\Handler;
 
+use Pagerfanta\Pagerfanta;
 use Sidus\ElasticaFilterBundle\Registry\ElasticaFinderRegistry;
 use Elastica\Query;
 use FOS\ElasticaBundle\Finder\PaginatedFinderInterface;
-use Pagerfanta\Exception\NotValidCurrentPageException;
 use Sidus\FilterBundle\DTO\SortConfig;
 use Sidus\FilterBundle\Query\Handler\AbstractQueryHandler;
 use Sidus\FilterBundle\Query\Handler\Configuration\QueryHandlerConfigurationInterface;
@@ -113,28 +113,12 @@ class ElasticaQueryHandler extends AbstractQueryHandler implements ElasticaQuery
     }
 
     /**
-     * @param int $selectedPage
+     * {@inheritdoc}
      *
      * @throws \UnexpectedValueException
-     * @throws \Pagerfanta\Exception\NotIntegerMaxPerPageException
-     * @throws \Pagerfanta\Exception\LessThan1MaxPerPageException
-     * @throws \Pagerfanta\Exception\OutOfRangeCurrentPageException
-     * @throws \Pagerfanta\Exception\NotIntegerCurrentPageException
-     * @throws \Pagerfanta\Exception\LessThan1CurrentPageException
      */
-    protected function applyPager($selectedPage = null)
+    protected function createPager(): Pagerfanta
     {
-        if ($selectedPage) {
-            $this->sortConfig->setPage($selectedPage);
-        }
-
-        $query = $this->getQuery();
-        $this->pager = $this->getFinder()->findPaginated($query);
-        $this->pager->setMaxPerPage($this->getConfiguration()->getResultsPerPage());
-        try {
-            $this->pager->setCurrentPage($this->sortConfig->getPage());
-        } catch (NotValidCurrentPageException $e) {
-            $this->sortConfig->setPage($this->pager->getCurrentPage());
-        }
+        return $this->getFinder()->findPaginated($this->getQuery());
     }
 }
