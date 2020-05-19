@@ -26,7 +26,7 @@
         }
     },
     "require": {
-        "sidus/filter-bundle": "2.0.*",
+        "sidus/filter-bundle": "3.0.*",
         "friendsofsymfony/elastica-bundle": "^5.0"
     }
 }
