@@ -2,7 +2,7 @@
 /*
  * This file is part of the Sidus/FilterBundle package.
  *
- * Copyright (c) 2015-2018 Vincent Chalnot
+ * Copyright (c) 2015-2021 Vincent Chalnot
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,7 +11,6 @@
 namespace Sidus\ElasticaFilterBundle\Filter\Type;
 
 use Sidus\ElasticaFilterBundle\Query\Handler\ElasticaQueryHandlerInterface;
-use Elastica\Query\AbstractQuery;
 use Elastica\Query\Term;
 use Sidus\FilterBundle\Exception\BadQueryHandlerException;
 use Sidus\FilterBundle\Filter\FilterInterface;
@@ -37,13 +36,14 @@ class ChoiceFilterType extends AbstractElasticaFilterType
             return;
         }
 
-        /** @var AbstractQuery[] $terms */
-        $terms = [];
-        foreach ($filter->getAttributes() as $attributePath) {
-            $terms[] = new Term([$attributePath => $data]);
-        }
-
-        $this->handleTerms($queryHandler, $terms);
+        $this->applyQuery(
+            $queryHandler,
+            $filter,
+            $data,
+            function (string $attributePath, $data) {
+                return new Term([$attributePath => $data]);
+            }
+        );
     }
 
     /**

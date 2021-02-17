@@ -2,7 +2,7 @@
 /*
  * This file is part of the Sidus/FilterBundle package.
  *
- * Copyright (c) 2015-2018 Vincent Chalnot
+ * Copyright (c) 2015-2021 Vincent Chalnot
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -57,16 +57,16 @@ class DateRangeFilterType extends AbstractElasticaFilterType
      *
      * @return array
      */
-    protected function buildParams(array $data)
+    protected function buildParams(array $data): array
     {
         $startDate = $data[DateRangeType::START_NAME] ?? null;
         $endDate = $data[DateRangeType::END_NAME] ?? null;
         $params = [];
         if ($startDate instanceof \DateTimeInterface) {
-            $params['gte'] = $startDate->format(\DateTime::ISO8601);
+            $params['gte'] = $startDate->format(\DateTime::ATOM);
         }
         if ($endDate instanceof \DateTimeInterface) {
-            $params['lte'] = $endDate->format(\DateTime::ISO8601);
+            $params['lte'] = $endDate->format(\DateTime::ATOM);
         }
 
         return $params;

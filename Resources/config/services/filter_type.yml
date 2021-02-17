@@ -15,7 +15,9 @@ services:
         tags:
             - { name: sidus.filter_type }
 
-    Sidus\ElasticaFilterBundle\Filter\Type\TextFilterType:
+    # Simple alias for text filter type for backward compatibility
+    sidus.elastica_filter.filter.type.text:
+        class: Sidus\ElasticaFilterBundle\Filter\Type\MatchFilterType
         public: false
         arguments:
             - text
@@ -23,10 +25,18 @@ services:
         tags:
             - { name: sidus.filter_type }
 
-    Sidus\ElasticaFilterBundle\Filter\Type\ExactFilterType:
+    Sidus\ElasticaFilterBundle\Filter\Type\MatchFilterType:
         public: false
         arguments:
-            - exact
+            - match
+            - Symfony\Component\Form\Extension\Core\Type\TextType
+        tags:
+            - { name: sidus.filter_type }
+
+    Sidus\ElasticaFilterBundle\Filter\Type\WildcardFilterType:
+        public: false
+        arguments:
+            - wildcard
             - Symfony\Component\Form\Extension\Core\Type\TextType
         tags:
             - { name: sidus.filter_type }

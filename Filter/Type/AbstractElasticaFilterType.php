@@ -2,7 +2,7 @@
 /*
  * This file is part of the Sidus/FilterBundle package.
  *
- * Copyright (c) 2015-2018 Vincent Chalnot
+ * Copyright (c) 2015-2021 Vincent Chalnot
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,6 +13,7 @@ namespace Sidus\ElasticaFilterBundle\Filter\Type;
 use Elastica\Query\AbstractQuery;
 use Elastica\Query\BoolQuery;
 use Sidus\ElasticaFilterBundle\Query\Handler\ElasticaQueryHandlerInterface;
+use Sidus\FilterBundle\Filter\FilterInterface;
 use Sidus\FilterBundle\Filter\Type\AbstractFilterType;
 
 /**
@@ -32,7 +33,7 @@ abstract class AbstractElasticaFilterType extends AbstractFilterType
      * @param ElasticaQueryHandlerInterface $queryHandler
      * @param AbstractQuery[]               $terms
      */
-    protected function handleTerms(ElasticaQueryHandlerInterface $queryHandler, $terms)
+    protected function handleTerms(ElasticaQueryHandlerInterface $queryHandler, $terms): void
     {
         if (1 === \count($terms)) {
             $queryHandler->addMustQuery(reset($terms));
@@ -43,5 +44,28 @@ abstract class AbstractElasticaFilterType extends AbstractFilterType
             }
             $queryHandler->addMustQuery($bool);
         }
+    }
+
+    protected function applyQuery(
+        ElasticaQueryHandlerInterface $queryHandler,
+        FilterInterface $filter,
+        $data,
+        callable $callback
+    ): void {
+        /** @var AbstractQuery[] $terms */
+        $terms = [];
+        foreach ($filter->getAttributes() as $attributePath) {
+            if (\is_array($data)) {
+                $bool = new BoolQuery();
+                foreach ($data as $datum) {
+                    $bool->addShould($callback($attributePath, $datum));
+                }
+                $terms[] = $bool;
+            } else {
+                $terms[] = $callback($attributePath, $data);
+            }
+        }
+
+        $this->handleTerms($queryHandler, $terms);
     }
 }
